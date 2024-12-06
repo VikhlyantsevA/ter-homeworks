@@ -1,0 +1,8 @@
+ssh_pwauth: no
+users:
+  - name: vikhlyantsevaa
+    groups: sudo	
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - <pub_ssh_key>
