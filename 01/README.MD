@@ -102,16 +102,20 @@ export YC_FOLDER_ID=$(yc config get folder-id)
 <br><br>
 **!!!!PS: В результате применения конфигураций terraform часто возникала на разных этапах нижеприведенная ошибка. При повторном запуске `terraform apply` она могла пропасть или возникнуть в ином месте. Возникала почти моментально. Для создания виртуальной машины пришлось применять `apply` раз 20. Гугление не помогло решить проблему. На данный момент актуальная версия yandex провайдера 0.134. Опустился до версии 0.122 (релиз 6 мес назад). Все четко сработало. Может порекомендуете что-то еще?**
 ![Ошибка при исполнении terraform apply](./pic/2_1_2.png)
+<br><br>
 2. Подключитесь к ВМ по ssh и установите стек docker.
+<br><br>
 3. Найдите в документации docker provider способ настроить подключение terraform на вашей рабочей станции к remote docker context вашей ВМ через ssh.
+<br><br>
 4. Используя terraform и remote docker context, скачайте и запустите на вашей ВМ контейнер mysql:8 на порту 127.0.0.1:3306, передайте ENV-переменные. Сгенерируйте разные пароли через random_password и передайте их в контейнер, используя интерполяцию из примера с nginx.(name = "example_${random_password.random_string.result}" , двойные кавычки и фигурные скобки обязательны!)
-    ```yaml
-   environment:
-      - "MYSQL_ROOT_PASSWORD=${...}"
-      - MYSQL_DATABASE=wordpress
-      - MYSQL_USER=wordpress
-      - "MYSQL_PASSWORD=${...}"
-      - MYSQL_ROOT_HOST="%"
-   ```
+ ```
+environment:
+   - "MYSQL_ROOT_PASSWORD=${...}"
+   - MYSQL_DATABASE=wordpress
+   - MYSQL_USER=wordpress
+   - "MYSQL_PASSWORD=${...}"
+   - MYSQL_ROOT_HOST="%"
+```
 Код в папке `ter-homeworks/01/src_2`
+<br><br>
 5. Зайдите на вашу ВМ , подключитесь к контейнеру и проверьте наличие секретных env-переменных с помощью команды env. Запишите ваш финальный код в репозиторий.
